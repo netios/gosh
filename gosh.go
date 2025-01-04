@@ -9,6 +9,46 @@ import (
 )
 
 // `ShellOutput` returns the output of shell command, and any errors.
+func ZShellOutput(command string) (error, string, string) {
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+
+	cmd := exec.Command("zsh", "-c", command)
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+
+	return err, stdout.String(), stderr.String()
+}
+
+func ZShellOutputWithDir(command, dir string) (error, string, string) {
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+
+	cmd := exec.Command("zsh", "-c", command)
+	cmd.Dir = dir
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+
+	return err, stdout.String(), stderr.String()
+}
+
+// `ShellCommand` executes the shell command.
+func ZShellCommand(command string) {
+	err, out, errout := ZShellOutput(command)
+
+	if err != nil {
+		log.Printf("error: %v\n", err)
+		fmt.Print(errout)
+	}
+	
+	fmt.Print(out)
+}
+
+// `ShellOutput` returns the output of shell command, and any errors.
 func ShellOutput(command string) (error, string, string) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
