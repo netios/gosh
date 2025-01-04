@@ -1,3 +1,3 @@
-module github.com/abdfnx/gosh
+module github.com/netios/gosh
 
-go 1.19
+go 1.23
